@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" 
+	     xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	     xmlns:tns="http://zconnector.miroch.ru/" 
+	     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	     xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"	
+	     targetNamespace="http://zconnector.miroch.ru/">
+<types>
+	<xs:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://zconnector.miroch.ru/" targetNamespace="http://zconnector.miroch.ru/" elementFormDefault="qualified">
+	<xs:element name="GetHosts" type="tns:GetHostsType"/>
+	<xs:complexType name="GetHostsType">
+		<xs:sequence>
+			<xs:element name="instanceId" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+     
+	<xs:element name="GetHostsResponse" type="tns:GetHostsResponseType" />
+	<xs:complexType name="GetHostsResponseType">
+		<xs:sequence>
+			<xs:element name="Host" type="tns:HostType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<!--<xs:element name="Host" type="tns:HostType" />-->
+	<xs:complexType name="HostType">
+		<xs:sequence>
+			<xs:element name="hostId" type="xs:string"/>
+			<xs:element name="hostName" type="xs:string"/>
+			<xs:element name="hostType" type="xs:string" minOccurs="0" />
+			<xs:element name="disks" type="tns:DiskType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="GetHostById" type="tns:GetHostsByIdType"/>
+	<xs:complexType name="GetHostsByIdType">
+		<xs:sequence>
+			<xs:element name="hostId" type="xs:string" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+     
+	<xs:element name="GetHostByIdResponse" type="tns:GetHostByIdResponseType" />
+	<xs:complexType name="GetHostByIdResponseType">
+		<xs:sequence>
+			<xs:element name="Host" type="tns:HostType"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DiskType">
+		<xs:sequence>
+			<xs:element name="size" type="xs:string"/>
+			<xs:element name="name" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- REAL -->
+	<xs:complexType name="ResultType">
+		<xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- FUNCTION GetZabbixHosts -->
+	<xs:element name="GetZabbixHosts" type="tns:GetZabbixHostsType" />
+	<xs:element name="GetZabbixHostsResponse" type="tns:GetZabbixHostsResponseType" />
+	<xs:complexType name="GetZabbixHostsType">
+		<xs:sequence>
+			<xs:element name="dummy" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetZabbixHostsResponseType">
+		<xs:sequence>
+			<xs:element name="ZabbixHost" type="tns:ZabbixHostsType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ZabbixHostsType">
+		<xs:sequence>
+			<xs:element name="Id" type="xs:integer" />
+			<xs:element name="Url" type="xs:string" />
+			<xs:element name="Status" type="xs:string" />
+			<xs:element name="Type" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- /FUNCTION GetZabbixHosts -->
+	
+	<!-- FUNCTION UpdateUserByName -->
+	<xs:complexType name="PhoneType">
+		<xs:sequence>
+			<xs:element name="PhoneNumber" type="xs:string" />
+			<xs:element name="TimeFrom" type="xs:string" minOccurs="0" />
+			<xs:element name="TimeTo" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="UpdateUserByName" type="tns:UpdateUserByNameType" />
+	<xs:element name="UpdateUserByNameResponse" type="tns:UpdateUserByNameResponseType" />
+	<xs:complexType name="UpdateUserByNameType">
+		<xs:sequence>
+			<xs:element name="Login" type="xs:string" />
+			<xs:element name="UserGroups" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="PhoneNumbers" type="tns:PhoneType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UpdateUserByNameResponseType">
+		<xs:sequence>
+			<xs:element name="ResultValue" type="xs:integer" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- /FUNCTION UpdateUserByName -->
+
+
+	<!-- FUNCTION GetGroups -->
+	<xs:complexType name="UserGroupType">
+		<xs:sequence>
+			<xs:element name="GroupId" type="xs:integer" />
+			<xs:element name="GroupName" type="xs:string"  />
+			<xs:element name="GuiAccess" type="xs:integer" minOccurs="0" />
+			<xs:element name="UsersStatus" type="xs:integer" minOccurs="0" />
+			<xs:element name="Debug" type="xs:integer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="GetUserGroups" type="tns:GetUserGroupsType" />
+	<xs:element name="GetUserGroupsResponse" type="tns:GetUserGroupsResponseType" />
+	<xs:complexType name="GetUserGroupsType">
+		<xs:sequence>
+			<xs:element name="UserGroupType" type="xs:string" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetUserGroupsResponseType">
+		<xs:sequence>
+			<xs:element name="UserGroup" type="tns:UserGroupType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- /FUNCTION GetGroups -->
+
+
+	<!-- FUNCTION GetTriggersByIp -->
+	<xs:element name="GetTriggersByIp" type="tns:GetTriggersByIpType" />
+	<xs:element name="GetTriggersByIpResponse" type="tns:GetTriggersByIpResponseType" />
+	<xs:complexType name="GetTriggersByIpType">
+		<xs:sequence>
+			<xs:element name="Ip" type="xs:string" />
+<!--			<xs:element name="TimeFrom" type="xs:dateTime" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="TimeTo" type="xs:dateTime" minOccurs="0" maxOccurs="unbounded" />-->
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetTriggersByIpResponseType">
+		<xs:sequence>
+			<xs:element name="Triggers" type="tns:TriggersType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- /FUNCTION GetTriggersByIp -->
+
+	<!-- FUNCTION GetTriggerById -->
+	<xs:element name="GetTriggerById" type="tns:GetTriggerByIdType" />
+	<xs:element name="GetTriggerByIdResponse" type="tns:GetTriggerByIdResponseType" />
+	<xs:complexType name="GetTriggerByIdType">
+		<xs:sequence>
+			<xs:element name="Id" type="xs:integer" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetTriggerByIdResponseType">
+		<xs:sequence>
+			<xs:element name="Trigger" type="tns:TriggersType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- /Function GetTriggersById -->
+	<xs:complexType name="TriggersType">
+		<xs:sequence>
+			<xs:element name="Id" type="xs:string" />
+			<xs:element name="Ip" type="xs:string" />
+			<xs:element name="Name" type="xs:string" />
+			<xs:element name="Status" type="xs:integer" />
+			<xs:element name="Value" type="xs:integer" />
+			<xs:element name="Priority" type="xs:integer" />
+			<xs:element name="LastChange" type="xs:datetime"   />
+			<xs:element name="Tags" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+
+	<!-- FUNCTION GetTriggersIds -->
+	<xs:element name="GetTriggersIds" type="tns:GetTriggersIdsType" />
+	<xs:element name="GetTriggersIdsResponse" type="tns:GetTriggersIdsResponseType" />
+	<xs:complexType name="GetTriggersIdsType">
+		<xs:sequence>
+			<xs:element name="Filter" type="tns:TriggerFilterType"  maxOccurs="1" />
+			<xs:element name="Sort" type="tns:TriggerSortType" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TriggerFilterType">
+		<xs:sequence>
+			<xs:element name="TimeFrom" type="xs:datetime" minOccurs="0" maxOccurs="1" />
+			<xs:element name="TimeTo" type="xs:datetime"  minOccurs="0" maxOccurs="1" />
+			<xs:element name="Ip" type="xs:string" minOccurs="0" maxOccurs="1" />
+			<xs:element name="Tags" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TriggerSortType">
+		<xs:sequence>
+			<xs:element name="Field" type="xs:string" />
+			<xs:element name="Order" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GetTriggersIdsResponseType">
+		<xs:sequence>
+			<xs:element name="TriggersIds" type="xs:integer" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- /FUNCTION GetTriggersIds -->
+
+
+
+
+
+
+
+
+
+
+	<!-- FUNCTION listObjectTypes -->
+	<xs:element name="listObjectTypes"  />
+	<xs:element name="listObjectTypesResponse" type="tns:integer" />
+	<!-- /FUNCTION listObjectTypes -->
+
+	 <!-- FUNCTION listObjectTypeNames -->
+        <xs:element name="listObjectTypeNames" type="tns:integer"  />
+        <xs:element name="listObjectTypeNamesResponse" type="tns:string" />
+        <!-- /FUNCTION listObjectTypeNames -->
+
+        <!-- FUNCTION listObjectTypeParentChildPairs -->
+        <xs:element name="listObjectTypeParentChildPairs" />
+        <xs:element name="listObjectTypeParentChildPairsResponse" type="tns:listObjectTypeParentChildPairsResponseType"  />
+	<xs:complexType name="listObjectTypeParentChildPairsResponseType">
+		<xs:sequence>
+			<xs:element name="ParentChildPair" type="tns:ParentChildPairType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ParentChildPairType">
+		<xs:sequence>
+			<xs:element name="ParentType" type="xs:integer" />
+			<xs:element name="ChildType" type="xs:integer" />
+		</xs:sequence>
+	</xs:complexType>
+        <!-- /FUNCTION listObjectTypeParentChildPairs -->
+
+	<!-- FUNCTION listAttrs -->
+        <xs:element name="listAttrs" type="tns:integer"  />
+        <xs:element name="listAttrsResponse" type="tns:listAttrsResponseType"  />
+	<xs:complexType name="listAttrsResponseType">
+		<xs:sequence>
+			<xs:element name="Attribute" type="tns:AttributeType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AttributeType">
+		<xs:sequence>
+			<xs:element name="Code" type="xs:string" />
+			<xs:element name="Description" type="xs:string" />
+			<xs:element name="IsMultiple" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- /FUNCTION listAttrs -->
+	
+	<!-- FUNCTION listObjectIdsPage -->
+        <xs:element name="listObjectIdsPage" type="tns:listObjectIdsPageType"  />
+        <xs:element name="listObjectIdsPageResponse" type="tns:listObjectIdsPageResponseType"  />
+	<xs:complexType name="listObjectIdsPageType">
+		<xs:sequence>
+			<xs:element name="objectType" type="xs:string" />
+			<xs:element name="filters" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="orderby" type="xs:string" />
+			<xs:element name="direction" type="xs:boolean" />
+			<xs:element name="pageNumber" type="xs:string" />
+			<xs:element name="pageSize" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="listObjectIdsPageResponseType">
+		<xs:sequence>
+			<xs:element name="triggerId" type="tns:integer" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- /FUNCTION listObjectIdsPage -->
+
+
+	<xs:complexType name="listObjectIdsPageResponseType">
+		<xs:sequence>
+			<xs:element name="object_id" type="xs:string" />
+			<xs:element name="type_id" type="xs:string" />
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="ip" type="xs:string" />
+			<xs:element name="importance" type="xs:string" />
+			<xs:element name="stage" type="xs:string" />
+			<xs:element name="tag" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="datetime" type="xs:dateTime" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+
+	</xs:schema>
+</types>
+
+<message name="construct RequestMsg">
+	<part name="construct RequestMsgReq" element="tns:construct "/>
+</message>
+<message name="construct ResponseMsg">
+	<part name="construct MsgReq" element="tns:construct Response"/>
+</message>
+
+<message name="constructRequestMsg">
+	<part name="constructRequestMsgReq" element="tns:construct"/>
+</message>
+<message name="constructResponseMsg">
+	<part name="constructMsgReq" element="tns:constructResponse"/>
+</message>
+
+<message name="callRequestMsg">
+	<part name="callRequestMsgReq" element="tns:call"/>
+</message>
+<message name="callResponseMsg">
+	<part name="callMsgReq" element="tns:callResponse"/>
+</message>
+
+<message name="GetHostsRequestMsg">
+	<part name="GetHostsRequestMsgReq" element="tns:GetHosts"/>
+</message>
+<message name="GetHostsResponseMsg">
+	<part name="GetHostsMsgReq" element="tns:GetHostsResponse"/>
+</message>
+
+<message name="GetHostByIdRequestMsg">
+	<part name="GetHostByIdRequestMsgReq" element="tns:GetHostById"/>
+</message>
+<message name="GetHostByIdResponseMsg">
+	<part name="GetHostByIdMsgReq" element="tns:GetHostByIdResponse"/>
+</message>
+
+<message name="GetZabbixHostsRequestMsg">
+	<part name="GetZabbixHostsRequestMsgReq" element="tns:GetZabbixHosts"/>
+</message>
+<message name="GetZabbixHostsResponseMsg">
+	<part name="GetZabbixHostsMsgReq" element="tns:GetZabbixHostsResponse"/>
+</message>
+
+<message name="GetClientsRequestMsg">
+	<part name="GetClientsRequestMsgReq" element="tns:GetClients"/>
+</message>
+<message name="GetClientsResponseMsg">
+	<part name="GetClientsMsgReq" element="tns:GetClientsResponse"/>
+</message>
+
+<message name="GetTriggerByIdRequestMsg">
+	<part name="GetTriggerByIdRequestMsgReq" element="tns:GetTriggerById"/>
+</message>
+<message name="GetTriggerByIdResponseMsg">
+	<part name="GetTriggerByIdMsgReq" element="tns:GetTriggerByIdResponse"/>
+</message>
+
+<message name="GetTriggersByIpRequestMsg">
+	<part name="GetTriggersByIpRequestMsgReq" element="tns:GetTriggersByIp"/>
+</message>
+<message name="GetTriggersByIpResponseMsg">
+	<part name="GetTriggersByIpMsgReq" element="tns:GetTriggersByIpResponse"/>
+</message>
+
+<message name="GetUserGroupsRequestMsg">
+	<part name="GetUserGroupsRequestMsgReq" element="tns:GetUserGroups"/>
+</message>
+<message name="GetUserGroupsResponseMsg">
+	<part name="GetUserGroupsMsgReq" element="tns:GetUserGroupsResponse"/>
+</message>
+
+<message name="UpdateUserByNameRequestMsg">
+	<part name="UpdateUserByNameRequestMsgReq" element="tns:UpdateUserByName"/>
+</message>
+<message name="UpdateUserByNameResponseMsg">
+	<part name="UpdateUserByNameMsgReq" element="tns:UpdateUserByNameResponse"/>
+</message>
+
+<message name="GetTriggersIdsRequestMsg">
+	<part name="GetTriggersIdsRequestMsgReq" element="tns:GetTriggersIds"/>
+</message>
+<message name="GetTriggersIdsResponseMsg">
+	<part name="GetTriggersIdsMsgReq" element="tns:GetTriggersIdsResponse"/>
+</message>
+
+<message name="listObjectTypesRequestMsg">
+	<part name="listObjectTypesRequestMsgReq" element="tns:listObjectTypes"/>
+</message>
+<message name="listObjectTypesResponseMsg">
+	<part name="listObjectTypesMsgReq" element="tns:listObjectTypesResponse"/>
+</message>
+
+<message name="listObjectTypeNamesRequestMsg">
+	<part name="listObjectTypeNamesRequestMsgReq" element="tns:listObjectTypeNames"/>
+</message>
+<message name="listObjectTypeNamesResponseMsg">
+	<part name="listObjectTypeNamesMsgReq" element="tns:listObjectTypeNamesResponse"/>
+</message>
+
+<message name="listObjectTypeParentChildPairsRequestMsg">
+	<part name="listObjectTypeParentChildPairsRequestMsgReq" element="tns:listObjectTypeParentChildPairs"/>
+</message>
+<message name="listObjectTypeParentChildPairsResponseMsg">
+	<part name="listObjectTypeParentChildPairsMsgReq" element="tns:listObjectTypeParentChildPairsResponse"/>
+</message>
+
+<message name="listAttrsRequestMsg">
+	<part name="listAttrsRequestMsgReq" element="tns:listAttrs"/>
+</message>
+<message name="listAttrsResponseMsg">
+	<part name="listAttrsMsgReq" element="tns:listAttrsResponse"/>
+</message>
+
+<message name="listObjectIdsPageRequestMsg">
+	<part name="listObjectIdsPageRequestMsgReq" element="tns:listObjectIdsPage"/>
+</message>
+<message name="listObjectIdsPageResponseMsg">
+	<part name="listObjectIdsPageMsgReq" element="tns:listObjectIdsPageResponse"/>
+</message>
+<portType name="CxZConnectorPortType">
+	<operation name="construct ">
+		<input message="tns:construct RequestMsg"/>
+		<output message="tns:construct ResponseMsg"/>
+	</operation>		
+
+	<operation name="construct">
+		<input message="tns:constructRequestMsg"/>
+		<output message="tns:constructResponseMsg"/>
+	</operation>		
+
+	<operation name="call">
+		<input message="tns:callRequestMsg"/>
+		<output message="tns:callResponseMsg"/>
+	</operation>		
+
+	<operation name="GetHosts">
+		<input message="tns:GetHostsRequestMsg"/>
+		<output message="tns:GetHostsResponseMsg"/>
+	</operation>		
+
+	<operation name="GetHostById">
+		<input message="tns:GetHostByIdRequestMsg"/>
+		<output message="tns:GetHostByIdResponseMsg"/>
+	</operation>		
+
+	<operation name="GetZabbixHosts">
+		<input message="tns:GetZabbixHostsRequestMsg"/>
+		<output message="tns:GetZabbixHostsResponseMsg"/>
+	</operation>		
+
+	<operation name="GetClients">
+		<input message="tns:GetClientsRequestMsg"/>
+		<output message="tns:GetClientsResponseMsg"/>
+	</operation>		
+
+	<operation name="GetTriggerById">
+		<input message="tns:GetTriggerByIdRequestMsg"/>
+		<output message="tns:GetTriggerByIdResponseMsg"/>
+	</operation>		
+
+	<operation name="GetTriggersByIp">
+		<input message="tns:GetTriggersByIpRequestMsg"/>
+		<output message="tns:GetTriggersByIpResponseMsg"/>
+	</operation>		
+
+	<operation name="GetUserGroups">
+		<input message="tns:GetUserGroupsRequestMsg"/>
+		<output message="tns:GetUserGroupsResponseMsg"/>
+	</operation>		
+
+	<operation name="UpdateUserByName">
+		<input message="tns:UpdateUserByNameRequestMsg"/>
+		<output message="tns:UpdateUserByNameResponseMsg"/>
+	</operation>		
+
+	<operation name="GetTriggersIds">
+		<input message="tns:GetTriggersIdsRequestMsg"/>
+		<output message="tns:GetTriggersIdsResponseMsg"/>
+	</operation>		
+
+	<operation name="listObjectTypes">
+		<input message="tns:listObjectTypesRequestMsg"/>
+		<output message="tns:listObjectTypesResponseMsg"/>
+	</operation>		
+
+	<operation name="listObjectTypeNames">
+		<input message="tns:listObjectTypeNamesRequestMsg"/>
+		<output message="tns:listObjectTypeNamesResponseMsg"/>
+	</operation>		
+
+	<operation name="listObjectTypeParentChildPairs">
+		<input message="tns:listObjectTypeParentChildPairsRequestMsg"/>
+		<output message="tns:listObjectTypeParentChildPairsResponseMsg"/>
+	</operation>		
+
+	<operation name="listAttrs">
+		<input message="tns:listAttrsRequestMsg"/>
+		<output message="tns:listAttrsResponseMsg"/>
+	</operation>		
+
+	<operation name="listObjectIdsPage">
+		<input message="tns:listObjectIdsPageRequestMsg"/>
+		<output message="tns:listObjectIdsPageResponseMsg"/>
+	</operation>		
+</portType>
+<binding type="tns:CxZConnectorPortType" name="CxZConnectorBinding">
+	<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+	<operation name="construct ">
+		<soap:operation soapAction="construct "/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+
+	<operation name="construct">
+		<soap:operation soapAction="construct"/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+
+	<operation name="call">
+		<soap:operation soapAction="call"/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+
+	<operation name="GetHosts">
+		<soap:operation soapAction="GetHosts"/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+
+	<operation name="GetHostById">
+		<soap:operation soapAction="GetHostById"/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+
+	<operation name="GetZabbixHosts">
+		<soap:operation soapAction="GetZabbixHosts"/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+
+	<operation name="GetClients">
+		<soap:operation soapAction="GetClients"/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+
+	<operation name="GetTriggerById">
+		<soap:operation soapAction="GetTriggerById"/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+
+	<operation name="GetTriggersByIp">
+		<soap:operation soapAction="GetTriggersByIp"/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+
+	<operation name="GetUserGroups">
+		<soap:operation soapAction="GetUserGroups"/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+
+	<operation name="UpdateUserByName">
+		<soap:operation soapAction="UpdateUserByName"/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+
+	<operation name="GetTriggersIds">
+		<soap:operation soapAction="GetTriggersIds"/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+
+	<operation name="listObjectTypes">
+		<soap:operation soapAction="listObjectTypes"/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+
+	<operation name="listObjectTypeNames">
+		<soap:operation soapAction="listObjectTypeNames"/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+
+	<operation name="listObjectTypeParentChildPairs">
+		<soap:operation soapAction="listObjectTypeParentChildPairs"/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+
+	<operation name="listAttrs">
+		<soap:operation soapAction="listAttrs"/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+
+	<operation name="listObjectIdsPage">
+		<soap:operation soapAction="listObjectIdsPage"/>
+		<input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+	</operation>
+</binding>
+  <service name="CxZConnector">
+    <port binding="tns:CxZConnectorBinding" name="CxZConnectorPort">
+      <soap:address location="http://zconnector.miroch.ru/"/>
+    </port>
+  </service>
+</definitions>
